@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "packZip": "vite build && rm -f kidblocker-extension.zip && zip -r kidblocker-extension.zip manifest.json background.js blocked.html blocked.js dist/ icons/ _locales/ -x '*.DS_Store'"
   },
   "dependencies": {
     "pinia": "^2.1.7",
