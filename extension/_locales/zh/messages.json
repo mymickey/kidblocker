@@ -1,0 +1,10 @@
+{
+    "extName": {
+        "message": "kidBlocker",
+        "description": "Extension name"
+    },
+    "extDescription": {
+        "message": "为您的孩子屏蔽网站",
+        "description": "Extension description"
+    }
+}

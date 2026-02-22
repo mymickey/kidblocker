@@ -1,0 +1,10 @@
+{
+    "extName": {
+        "message": "kidBlocker",
+        "description": "Extension name"
+    },
+    "extDescription": {
+        "message": "Bloquez des sites pour vos enfants",
+        "description": "Extension description"
+    }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocked by kidBlocker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+  <div class="text-center max-w-lg px-6">
+    <div class="mb-8">
+      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-semibold text-gray-900 mb-2" id="blocked-domain"></h1>
+      <p class="text-gray-600 text-lg mb-2" id="blocked-message">This page has been blocked by an extension</p>
+      <p class="text-gray-400 text-sm mt-6">Try disabling your extensions.</p>
+      <p class="text-gray-300 text-xs mt-2 font-mono">ERR_BLOCKED_BY_CLIENT</p>
+    </div>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="flex items-center justify-center gap-2 text-gray-400 text-sm">
+        <img src="icons/icon32.png" alt="kidBlocker" class="w-5 h-5" onerror="this.style.display='none'">
+        <span>kidBlocker</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search)
+    const domain = params.get('domain') || 'this site'
+    document.getElementById('blocked-domain').textContent = `${domain} is blocked`
+    document.title = `${domain} is blocked - kidBlocker`
+  </script>
+</body>
+</html>
