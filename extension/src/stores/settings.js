@@ -38,8 +38,8 @@ export const useSettingsStore = defineStore('settings', () => {
         try {
             const data = await chrome.storage.sync.get(['activeMode', 'blacklist', 'whitelist', 'password'])
             if (data.activeMode !== undefined) activeMode.value = data.activeMode
-            if (data.blacklist) blacklist.value = data.blacklist
-            if (data.whitelist) whitelist.value = data.whitelist
+            if (Array.isArray(data.blacklist)) blacklist.value = data.blacklist
+            if (Array.isArray(data.whitelist)) whitelist.value = data.whitelist
             if (data.password) password.value = data.password
         } catch (e) {
             console.warn('Could not load from chrome.storage.sync:', e)
@@ -81,10 +81,14 @@ export const useSettingsStore = defineStore('settings', () => {
         return mode === 'blacklist' ? blacklist.value : whitelist.value
     }
 
+    function isValidDomain(domain) {
+        return /^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/.test(domain)
+    }
+
     function addDomain(mode, domain) {
         const list = mode === 'blacklist' ? blacklist : whitelist
         const clean = domain.trim().toLowerCase()
-        if (!clean) return { error: 'invalidDomain' }
+        if (!clean || !isValidDomain(clean)) return { error: 'invalidDomain' }
         if (list.value.includes(clean)) return { error: 'duplicateDomain' }
         list.value.push(clean)
         saveSettings()
@@ -103,7 +107,7 @@ export const useSettingsStore = defineStore('settings', () => {
     function editDomain(mode, oldDomain, newDomain) {
         const list = mode === 'blacklist' ? blacklist : whitelist
         const clean = newDomain.trim().toLowerCase()
-        if (!clean) return { error: 'invalidDomain' }
+        if (!clean || !isValidDomain(clean)) return { error: 'invalidDomain' }
         if (clean !== oldDomain && list.value.includes(clean)) return { error: 'duplicateDomain' }
         const idx = list.value.indexOf(oldDomain)
         if (idx > -1) {
