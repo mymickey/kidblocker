@@ -35,18 +35,24 @@ chrome.runtime.onInstalled.addListener(async () => {
 
     const defaults = {}
     if (data.activeMode === undefined) defaults.activeMode = null
-    if (!data.blacklist) defaults.blacklist = DEFAULT_BLACKLIST
-    if (!data.whitelist) defaults.whitelist = DEFAULT_WHITELIST
+    if (!Array.isArray(data.blacklist)) defaults.blacklist = DEFAULT_BLACKLIST
+    if (!Array.isArray(data.whitelist)) defaults.whitelist = DEFAULT_WHITELIST
 
     if (Object.keys(defaults).length > 0) {
         await chrome.storage.sync.set(defaults)
     }
+
+    // Clean up old storage keys from previous version
+    await chrome.storage.sync.remove(['mode', 'enabled'])
 })
 
-// Listen for messages from popup to sync rules
+// Listen for messages from settings page to sync rules
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.action === 'updateRules') {
-        updateBlockingRules().then(() => sendResponse({ success: true }))
+        updateBlockingRules().then(() => sendResponse({ success: true })).catch(e => {
+            console.error('updateRules failed:', e)
+            sendResponse({ success: false, error: e.message })
+        })
         return true // keep channel open for async
     }
     if (message.action === 'getRules') {
@@ -66,7 +72,11 @@ chrome.storage.onChanged.addListener((_changes, namespace) => {
 
 async function updateBlockingRules() {
     const data = await chrome.storage.sync.get(['activeMode', 'blacklist', 'whitelist'])
-    const { activeMode, blacklist = [], whitelist = [] } = data
+    const activeMode = data.activeMode || null
+    const blacklist = Array.isArray(data.blacklist) ? data.blacklist : []
+    const whitelist = Array.isArray(data.whitelist) ? data.whitelist : []
+
+    console.log('[kidBlocker] Updating rules — activeMode:', activeMode, 'blacklist:', blacklist.length, 'whitelist:', whitelist.length)
 
     // First, remove all existing dynamic rules
     const existingRules = await chrome.declarativeNetRequest.getDynamicRules()
@@ -79,7 +89,10 @@ async function updateBlockingRules() {
     }
 
     // If no mode is active, done — no rules
-    if (!activeMode) return
+    if (!activeMode) {
+        console.log('[kidBlocker] No active mode, all rules cleared')
+        return
+    }
 
     const blockedPageUrl = chrome.runtime.getURL('blocked.html')
     const addRules = []
@@ -166,5 +179,6 @@ async function updateBlockingRules() {
 
     if (addRules.length > 0) {
         await chrome.declarativeNetRequest.updateDynamicRules({ addRules })
+        console.log('[kidBlocker] Applied', addRules.length, 'rules for', activeMode, 'mode')
     }
 }

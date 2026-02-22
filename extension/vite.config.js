@@ -9,8 +9,7 @@ export default defineConfig({
         outDir: 'dist',
         rollupOptions: {
             input: {
-                popup: resolve(__dirname, 'index.html'),
-                blocked: resolve(__dirname, 'blocked.html')
+                popup: resolve(__dirname, 'index.html')
             },
             output: {
                 entryFileNames: 'assets/[name].js',

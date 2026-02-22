@@ -1,41 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blocked by kidBlocker</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111827;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 480px;
+      padding: 0 24px;
+    }
+
+    .icon-wrap {
+      width: 80px;
+      height: 80px;
+      background: #fee2e2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .icon-wrap svg {
+      width: 40px;
+      height: 40px;
+      color: #ef4444;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .message {
+      color: #4b5563;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .hint {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-top: 24px;
+    }
+
+    .error-code {
+      color: #d1d5db;
+      font-size: 12px;
+      margin-top: 8px;
+      font-family: monospace;
+    }
+
+    .footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .footer img {
+      width: 20px;
+      height: 20px;
     }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
-  <div class="text-center max-w-lg px-6">
-    <div class="mb-8">
-      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+
+<body>
+  <div class="container">
+    <div>
+      <div class="icon-wrap">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
         </svg>
       </div>
-      <h1 class="text-2xl font-semibold text-gray-900 mb-2" id="blocked-domain"></h1>
-      <p class="text-gray-600 text-lg mb-2" id="blocked-message">This page has been blocked by an extension</p>
-      <p class="text-gray-400 text-sm mt-6">Try disabling your extensions.</p>
-      <p class="text-gray-300 text-xs mt-2 font-mono">ERR_BLOCKED_BY_CLIENT</p>
+      <h1 id="blocked-domain"></h1>
+      <p class="error-code">ERR_BLOCKED_BY_CLIENT</p>
     </div>
-    <div class="mt-8 pt-6 border-t border-gray-200">
-      <div class="flex items-center justify-center gap-2 text-gray-400 text-sm">
-        <img src="icons/icon32.png" alt="kidBlocker" class="w-5 h-5" onerror="this.style.display='none'">
-        <span>kidBlocker</span>
-      </div>
+    <div class="footer">
+      <img src="icons/icon32.png" alt="kidBlocker" onerror="this.style.display='none'">
+      <span>kidBlocker</span>
     </div>
   </div>
-  <script>
-    const params = new URLSearchParams(window.location.search)
-    const domain = params.get('domain') || 'this site'
-    document.getElementById('blocked-domain').textContent = `${domain} is blocked`
-    document.title = `${domain} is blocked - kidBlocker`
-  </script>
+  <script src="blocked.js"></script>
 </body>
+
 </html>
