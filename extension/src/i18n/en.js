@@ -2,6 +2,8 @@ const en = {
     // Settings tab
     settings: 'Settings',
     password: 'Password',
+    language: 'Language',
+    languageTitle: 'Language',
     about: 'About',
     blacklistMode: 'Blacklist Mode',
     whitelistMode: 'Whitelist Mode',
@@ -52,6 +54,8 @@ const en = {
     aboutDesc: 'kidBlocker helps parents protect their children by blocking or allowing specific websites.',
     version: 'Version',
     website: 'Official Website',
+    feedback: 'Feedback',
+    reportIssue: 'Report an Issue',
     visitWebsite: 'Visit kidblocker.com'
 }
 

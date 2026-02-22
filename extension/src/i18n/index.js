@@ -7,8 +7,10 @@ import { ref } from 'vue'
 
 const locales = { en, zh, ja, fr, es }
 
-// Detect browser language
+// Detect language: localStorage > browser language > en
 function detectLanguage() {
+    const saved = localStorage.getItem('kidBlockerLang')
+    if (saved && locales[saved]) return saved
     const lang = navigator.language || navigator.userLanguage || 'en'
     const short = lang.split('-')[0].toLowerCase()
     return locales[short] ? short : 'en'
@@ -24,6 +26,7 @@ export function t(key) {
 export function setLanguage(lang) {
     if (locales[lang]) {
         currentLang.value = lang
+        localStorage.setItem('kidBlockerLang', lang)
     }
 }
 

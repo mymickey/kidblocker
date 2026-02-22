@@ -29,14 +29,21 @@ const DEFAULT_WHITELIST = [
     'netflix.com'
 ]
 
+// chrome.storage.sync sometimes stores arrays as objects with numeric keys
+function toArray(val) {
+    if (Array.isArray(val)) return val
+    if (val && typeof val === 'object') return Object.values(val)
+    return null
+}
+
 // Initialize default settings on install
 chrome.runtime.onInstalled.addListener(async () => {
     const data = await chrome.storage.sync.get(['activeMode', 'blacklist', 'whitelist'])
 
     const defaults = {}
     if (data.activeMode === undefined) defaults.activeMode = null
-    if (!Array.isArray(data.blacklist)) defaults.blacklist = DEFAULT_BLACKLIST
-    if (!Array.isArray(data.whitelist)) defaults.whitelist = DEFAULT_WHITELIST
+    if (!toArray(data.blacklist)) defaults.blacklist = DEFAULT_BLACKLIST
+    if (!toArray(data.whitelist)) defaults.whitelist = DEFAULT_WHITELIST
 
     if (Object.keys(defaults).length > 0) {
         await chrome.storage.sync.set(defaults)
@@ -73,8 +80,8 @@ chrome.storage.onChanged.addListener((_changes, namespace) => {
 async function updateBlockingRules() {
     const data = await chrome.storage.sync.get(['activeMode', 'blacklist', 'whitelist'])
     const activeMode = data.activeMode || null
-    const blacklist = Array.isArray(data.blacklist) ? data.blacklist : []
-    const whitelist = Array.isArray(data.whitelist) ? data.whitelist : []
+    const blacklist = toArray(data.blacklist) || []
+    const whitelist = toArray(data.whitelist) || []
 
     console.log('[kidBlocker] Updating rules — activeMode:', activeMode, 'blacklist:', blacklist.length, 'whitelist:', whitelist.length)
 

@@ -2,11 +2,9 @@
   <div class="flex flex-col w-[50vw] h-[80vh] bg-white rounded-2xl shadow-xl overflow-hidden">
     <!-- Toast notification -->
     <Transition name="toast">
-      <div
-        v-if="store.toast.show"
+      <div v-if="store.toast.show"
         class="fixed top-3 right-3 z-50 px-4 py-2.5 rounded-lg shadow-lg text-sm font-medium text-white"
-        :class="store.toast.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'"
-      >
+        :class="store.toast.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'">
         {{ store.toast.message }}
       </div>
     </Transition>
@@ -25,15 +23,10 @@
           </div>
         </div>
         <div class="flex-1 py-2">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            class="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150"
-            :class="activeTab === tab.id
+          <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
+            class="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150" :class="activeTab === tab.id
               ? 'bg-white text-gray-900 font-medium border-r-2 border-gray-900'
-              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'"
-          >
+              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'">
             <component :is="tab.icon" class="w-4 h-4" />
             {{ tab.label }}
           </button>
@@ -41,10 +34,7 @@
         <!-- Status indicator -->
         <div class="px-4 py-3 border-t border-gray-200">
           <div class="flex items-center gap-2">
-            <span
-              class="w-2 h-2 rounded-full"
-              :class="store.activeMode ? 'bg-emerald-400' : 'bg-gray-300'"
-            ></span>
+            <span class="w-2 h-2 rounded-full" :class="store.activeMode ? 'bg-emerald-400' : 'bg-gray-300'"></span>
             <span class="text-xs text-gray-500">
               {{ store.activeMode ? t('enabled') : t('disabled') }}
             </span>
@@ -56,6 +46,7 @@
       <main class="flex-1 overflow-y-auto">
         <SettingsTab v-if="activeTab === 'settings'" />
         <PasswordTab v-else-if="activeTab === 'password'" />
+        <LanguageTab v-else-if="activeTab === 'language'" />
         <AboutTab v-else-if="activeTab === 'about'" />
       </main>
     </div>
@@ -69,6 +60,7 @@ import { t } from './i18n/index.js'
 import PasswordGate from './components/PasswordGate.vue'
 import SettingsTab from './components/SettingsTab.vue'
 import PasswordTab from './components/PasswordTab.vue'
+import LanguageTab from './components/LanguageTab.vue'
 import AboutTab from './components/AboutTab.vue'
 
 const store = useSettingsStore()
@@ -102,9 +94,18 @@ const AboutIcon = {
   }
 }
 
+const LanguageIcon = {
+  render() {
+    return h('svg', { fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
+      h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'm10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802' })
+    ])
+  }
+}
+
 const tabs = computed(() => [
   { id: 'settings', label: t('settings'), icon: SettingsIcon },
   { id: 'password', label: t('password'), icon: PasswordIcon },
+  { id: 'language', label: t('language'), icon: LanguageIcon },
   { id: 'about', label: t('about'), icon: AboutIcon }
 ])
 
@@ -117,13 +118,16 @@ onMounted(() => {
 .toast-enter-active {
   transition: all 0.3s ease;
 }
+
 .toast-leave-active {
   transition: all 0.3s ease;
 }
+
 .toast-enter-from {
   opacity: 0;
   transform: translateY(-10px);
 }
+
 .toast-leave-to {
   opacity: 0;
   transform: translateY(-10px);

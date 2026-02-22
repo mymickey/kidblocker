@@ -24,6 +24,14 @@ const DEFAULT_WHITELIST = [
     'netflix.com'
 ]
 
+// chrome.storage.sync sometimes stores arrays as objects with numeric keys
+// This helper converts them back to arrays
+function toArray(val) {
+    if (Array.isArray(val)) return val
+    if (val && typeof val === 'object') return Object.values(val)
+    return null
+}
+
 export const useSettingsStore = defineStore('settings', () => {
     // activeMode: null (nothing active), 'blacklist', or 'whitelist'
     const activeMode = ref(null)
@@ -37,12 +45,15 @@ export const useSettingsStore = defineStore('settings', () => {
     async function loadSettings() {
         try {
             const data = await chrome.storage.sync.get(['activeMode', 'blacklist', 'whitelist', 'password'])
+            console.log('[kidBlocker] loadSettings:', JSON.stringify(data))
             if (data.activeMode !== undefined) activeMode.value = data.activeMode
-            if (Array.isArray(data.blacklist)) blacklist.value = data.blacklist
-            if (Array.isArray(data.whitelist)) whitelist.value = data.whitelist
+            const bl = toArray(data.blacklist)
+            const wl = toArray(data.whitelist)
+            if (bl) blacklist.value = bl
+            if (wl) whitelist.value = wl
             if (data.password) password.value = data.password
         } catch (e) {
-            console.warn('Could not load from chrome.storage.sync:', e)
+            console.error('[kidBlocker] loadSettings error:', e)
         }
         loaded.value = true
     }
@@ -50,16 +61,19 @@ export const useSettingsStore = defineStore('settings', () => {
     // Save settings to chrome.storage.sync
     async function saveSettings() {
         try {
-            await chrome.storage.sync.set({
+            const payload = {
                 activeMode: activeMode.value,
                 blacklist: blacklist.value,
                 whitelist: whitelist.value,
                 password: password.value
-            })
+            }
+            console.log('[kidBlocker] saveSettings:', JSON.stringify(payload))
+            await chrome.storage.sync.set(payload)
+            console.log('[kidBlocker] saveSettings success')
             // Notify background to update rules
             chrome.runtime.sendMessage({ action: 'updateRules' })
         } catch (e) {
-            console.warn('Could not save to chrome.storage.sync:', e)
+            console.error('[kidBlocker] saveSettings error:', e)
         }
     }
 

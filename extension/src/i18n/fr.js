@@ -1,6 +1,8 @@
 const fr = {
     settings: 'Paramètres',
     password: 'Mot de passe',
+    language: 'Langue',
+    languageTitle: 'Langue',
     about: 'À propos',
     blacklistMode: 'Mode liste noire',
     whitelistMode: 'Mode liste blanche',
@@ -48,6 +50,8 @@ const fr = {
     aboutDesc: 'kidBlocker aide les parents à protéger leurs enfants en bloquant ou en autorisant des sites web spécifiques.',
     version: 'Version',
     website: 'Site officiel',
+    feedback: 'Retour',
+    reportIssue: 'Signaler un problème',
     visitWebsite: 'Visiter kidblocker.com'
 }
 

@@ -1,6 +1,8 @@
 const ja = {
     settings: '設定',
     password: 'パスワード',
+    language: '言語',
+    languageTitle: '言語設定',
     about: 'について',
     blacklistMode: 'ブラックリストモード',
     whitelistMode: 'ホワイトリストモード',
@@ -48,6 +50,8 @@ const ja = {
     aboutDesc: 'kidBlockerは、特定のウェブサイトをブロックまたは許可することで、保護者がお子様を保護するのを助けます。',
     version: 'バージョン',
     website: '公式ウェブサイト',
+    feedback: 'フィードバック',
+    reportIssue: '問題を報告',
     visitWebsite: 'kidblocker.comにアクセス'
 }
 

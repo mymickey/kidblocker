@@ -1,6 +1,8 @@
 const es = {
     settings: 'Configuración',
     password: 'Contraseña',
+    language: 'Idioma',
+    languageTitle: 'Idioma',
     about: 'Acerca de',
     blacklistMode: 'Modo lista negra',
     whitelistMode: 'Modo lista blanca',
@@ -48,6 +50,8 @@ const es = {
     aboutDesc: 'kidBlocker ayuda a los padres a proteger a sus hijos bloqueando o permitiendo sitios web específicos.',
     version: 'Versión',
     website: 'Sitio web oficial',
+    feedback: 'Comentarios',
+    reportIssue: 'Reportar un problema',
     visitWebsite: 'Visitar kidblocker.com'
 }
 

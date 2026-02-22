@@ -1,6 +1,8 @@
 const zh = {
     settings: '设置',
     password: '密码',
+    language: '语言',
+    languageTitle: '语言设置',
     about: '关于',
     blacklistMode: '黑名单模式',
     whitelistMode: '白名单模式',
@@ -48,6 +50,8 @@ const zh = {
     aboutDesc: 'kidBlocker 帮助家长通过屏蔽或允许特定网站来保护孩子。',
     version: '版本',
     website: '官方网站',
+    feedback: '问题反馈',
+    reportIssue: '提交问题',
     visitWebsite: '访问 kidblocker.com'
 }
 
