@@ -374,6 +374,16 @@ export default {
       })
     }
 
+    // Serve privacy policy
+    if (path === '/privacy') {
+      return new Response(generatePrivacy(), {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600'
+        }
+      })
+    }
+
     // Detect language from path
     let lang = 'en'
     const pathLang = path.replace(/^\//, '').replace(/\/.*$/, '')
@@ -389,4 +399,86 @@ export default {
       }
     })
   }
+}
+
+// ─── Privacy Policy ──────────────────────────────────────────────────────────────
+
+function generatePrivacy() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – kidBlocker</title>
+    <meta name="description" content="Privacy Policy for the kidBlocker browser extension.">
+    <link rel="icon" type="image/png" href="${LOGO}">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f9fafb; color: #111827; line-height: 1.7; }
+      .container { max-width: 680px; margin: 0 auto; padding: 60px 24px 80px; }
+      .back { display: inline-flex; align-items: center; gap: 6px; color: #6b7280; font-size: 14px; text-decoration: none; margin-bottom: 32px; transition: color .15s; }
+      .back:hover { color: #111827; }
+      h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+      .updated { color: #9ca3af; font-size: 13px; margin-bottom: 40px; }
+      h2 { font-size: 18px; font-weight: 600; margin: 32px 0 12px; color: #111827; }
+      p, li { color: #374151; font-size: 15px; margin-bottom: 12px; }
+      ul { padding-left: 20px; margin-bottom: 16px; }
+      li { margin-bottom: 6px; }
+      a { color: #111827; }
+      .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; }
+      .footer a { display: inline-flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 13px; text-decoration: none; }
+      .footer img { width: 20px; height: 20px; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+      Back to Home
+    </a>
+
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: ${new Date().toISOString().split('T')[0]}</p>
+
+    <h2>Overview</h2>
+    <p>kidBlocker is a free, open-source browser extension designed to help parents protect their children online. We are committed to your privacy and want you to understand exactly how your data is handled.</p>
+
+    <h2>Data Collection</h2>
+    <p><strong>We do not collect any personal data.</strong> kidBlocker does not send any information to external servers. All data stays on your device or within your browser's built-in sync service.</p>
+
+    <h2>Data Storage</h2>
+    <p>kidBlocker stores the following settings locally using your browser's built-in storage (<code>chrome.storage.sync</code>):</p>
+    <ul>
+      <li>Your selected blocking mode (blacklist or whitelist)</li>
+      <li>Your list of blocked or allowed domains</li>
+      <li>Your settings password (if configured)</li>
+    </ul>
+    <p>If you are signed in to your browser account, these settings may sync across your devices through your browser's own sync service. This is a built-in browser feature and does not involve any third-party servers.</p>
+
+    <h2>Third-Party Services</h2>
+    <p>kidBlocker does <strong>not</strong> use any third-party analytics, tracking, advertising, or data collection services.</p>
+
+    <h2>Permissions</h2>
+    <p>The extension requests the following browser permissions:</p>
+    <ul>
+      <li><strong>Storage</strong> – to save your settings locally</li>
+      <li><strong>DeclarativeNetRequest</strong> – to block or allow websites based on your configuration</li>
+      <li><strong>Host Permissions</strong> – to apply blocking rules to all websites</li>
+    </ul>
+
+    <h2>Open Source</h2>
+    <p>kidBlocker is fully open source. You can review the complete source code on <a href="https://github.com/mymickey/kidblocker" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+
+    <h2>Contact</h2>
+    <p>If you have any questions about this privacy policy, please <a href="https://github.com/mymickey/kidblocker/issues" target="_blank" rel="noopener noreferrer">open an issue on GitHub</a>.</p>
+
+    <div class="footer">
+      <a href="/">
+        <img src="${LOGO}" alt="kidBlocker">
+        <span>kidBlocker</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>`
 }
