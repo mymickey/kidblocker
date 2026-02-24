@@ -234,7 +234,14 @@ function generateHTML(lang) {
 <html lang="${lang}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3GLHQKLGP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P3GLHQKLGP');
+    </script>
     <title>${t.title}</title>
     <meta name="description" content="${t.metaDesc}">
     <link rel="canonical" href="${DOMAIN}${langPrefix || '/'}" />
@@ -408,7 +415,14 @@ function generatePrivacy() {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3GLHQKLGP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P3GLHQKLGP');
+    </script>
     <title>Privacy Policy – kidBlocker</title>
     <meta name="description" content="Privacy Policy for the kidBlocker browser extension.">
     <link rel="icon" type="image/png" href="${LOGO}">
