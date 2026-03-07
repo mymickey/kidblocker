@@ -11,7 +11,7 @@ const i18n = {
   en: {
     lang: 'en',
     title: 'kidBlocker – Protect Your Children Online',
-    metaDesc: 'Free Chrome & Edge extension to block or allow websites for your children. Set up blacklists or whitelists, protect settings with a password, and sync across devices.',
+    metaDesc: 'block or allow websites for your children. Set up blacklists or whitelists, protect settings with a password, and sync across devices.',
     heroTitle: 'Keep Your Kids Safe Online',
     heroSubtitle: 'A free browser extension that lets you block harmful websites or only allow approved ones. Simple, secure, and syncs across all your devices.',
     installChrome: 'Add to Chrome',
